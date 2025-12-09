@@ -55,8 +55,18 @@ try:
     # --- C. METRICS ---
     kpi1, kpi2, kpi3 = st.columns(3)
     kpi1.metric("Total Événements", len(df_filtered))
-    kpi2.metric("IPs Uniques", df_filtered['SourceIP'].nunique())
-    kpi3.metric("Attaquant Principal", df_filtered['SourceIP'].mode()[0])
+
+   # Calcul sécurisé
+    nb_ips = df_filtered['SourceIP'].nunique()
+    kpi2.metric("IPs Uniques", nb_ips)
+
+    if nb_ips > 0:
+     top_attacker = df_filtered['SourceIP'].mode()[0]
+    else:
+     top_attacker = "N/A"
+    
+    kpi3.metric("Attaquant Principal", top_attacker)
+
 
     st.markdown("---")
 
